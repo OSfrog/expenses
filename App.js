@@ -1,8 +1,10 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { StatusBar } from "expo-status-bar";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
+import * as SplashScreen from "expo-splash-screen";
 
 import { GlobalStyles } from "./constants/styles";
 import IconButton from "./components/UI/IconButton";
@@ -15,7 +17,7 @@ import AllExpenses from "./screens/AllExpenses";
 import LoginScreen from "./screens/LoginScreen";
 import SignupScreen from "./screens/SignupScreen";
 import AccountScreen from "./screens/AccountScreen";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 
 const Stack = createNativeStackNavigator();
 const BottomTabs = createBottomTabNavigator();
@@ -129,8 +131,28 @@ const MainStack = () => {
   );
 };
 
+SplashScreen.preventAutoHideAsync();
+
 const RootNavigator = () => {
-  const { isAuthenticated } = useContext(AuthContext);
+  const [isLoggingIn, setIsLoggingIn] = useState(true);
+  const { isAuthenticated, authenticate } = useContext(AuthContext);
+
+  useEffect(() => {
+    const fetchToken = async () => {
+      const storedToken = await AsyncStorage.getItem("token");
+
+      if (storedToken) {
+        authenticate(storedToken);
+      }
+      setIsLoggingIn(false);
+    };
+    fetchToken();
+  }, []);
+
+  if (!isLoggingIn) {
+    SplashScreen.hideAsync();
+  }
+
   return (
     <NavigationContainer>
       <ExpensesContextProvider>
