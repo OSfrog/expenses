@@ -51,6 +51,8 @@ const AuthForm = ({ isLogin, onSubmit, credentialsInvalid }) => {
 					textInputConfig={{
 						onChangeText: updateInputValueHandler.bind(this, "email"),
 						value: enteredEmail,
+						autoCapitalize: "none",
+						autoCorrect: false,
 						keyboardType: "email-address",
 					}}
 					invalid={emailIsInvalid}
@@ -62,6 +64,8 @@ const AuthForm = ({ isLogin, onSubmit, credentialsInvalid }) => {
 						textInputConfig={{
 							value: enteredConfirmEmail,
 							onChangeText: updateInputValueHandler.bind(this, "confirmEmail"),
+							autoCapitalize: "none",
+							autoCorrect: false,
 							keyboardType: "email-address",
 						}}
 					/>
@@ -70,7 +74,9 @@ const AuthForm = ({ isLogin, onSubmit, credentialsInvalid }) => {
 					label="Password"
 					textInputConfig={{
 						onChangeText: updateInputValueHandler.bind(this, "password"),
-						secureTextEntry: { secure },
+						secureTextEntry: true,
+						autoCapitalize: "none",
+						autoCorrect: false,
 						value: enteredPassword,
 					}}
 					invalid={passwordIsInvalid}
@@ -83,7 +89,9 @@ const AuthForm = ({ isLogin, onSubmit, credentialsInvalid }) => {
 								this,
 								"confirmPassword"
 							),
-							secureTextEntry: { secure },
+							autoCapitalize: "none",
+							autoCorrect: false,
+							secureTextEntry: true,
 							value: enteredConfirmPassword,
 						}}
 						invalid={passwordsDontMatch}
