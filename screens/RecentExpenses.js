@@ -5,11 +5,13 @@ import { getDateMinusDays } from "../utils/date";
 import { fetchExpenses } from "../utils/http";
 import LoadingOverlay from "../components/UI/LoadingOverlay";
 import ErrorOverlay from "../components/UI/ErrorOverlay";
+import { AuthContext } from "../store/auth-context";
 
 const RecentExpenses = () => {
   const [isFetching, setIsFetching] = useState(true);
   const [error, setError] = useState();
   const { expenses, setExpenses } = useContext(ExpensesContext);
+  const { token } = useContext(AuthContext);
 
   const recentExpenses = expenses.filter((expense) => {
     const today = new Date();
@@ -19,7 +21,7 @@ const RecentExpenses = () => {
   });
 
   const getExpenses = async () => {
-    const expenses = await fetchExpenses();
+    const expenses = await fetchExpenses(token);
     setExpenses(expenses);
   };
 

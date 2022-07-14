@@ -9,8 +9,8 @@ export const storeExpense = async (expenseData) => {
   return id;
 };
 
-export const fetchExpenses = async () => {
-  const response = await axios.get(baseURL + "/expenses.json");
+export const fetchExpenses = async (token) => {
+  const response = await axios.get(baseURL + `/expenses.json?auth=${token}`);
 
   const expenses = [];
 

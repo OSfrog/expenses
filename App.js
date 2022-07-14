@@ -36,6 +36,8 @@ const AuthStack = () => {
 };
 
 const ExpensesOverview = () => {
+  const { logout } = useContext(AuthContext);
+
   return (
     <BottomTabs.Navigator
       screenOptions={({ navigation }) => ({
@@ -87,6 +89,14 @@ const ExpensesOverview = () => {
           tabBarLabel: "Account",
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="cog" size={size} color={color} />
+          ),
+          headerRight: ({ tintColor }) => (
+            <IconButton
+              icon="exit-outline"
+              size={24}
+              color={tintColor}
+              onPress={logout}
+            />
           ),
         }}
       />
